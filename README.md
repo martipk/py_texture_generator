@@ -1,8 +1,4 @@
-# py_texture_generetor
-
-----------------------------------------------------
-
-## Random Texture Generator
+# Random Texture Generator
 
 Desktop App that can generate randomized patterns and textures from input files by rotating and mirroring specific images in the grid, with many customization options as well as the possibility to also generate a pattern grid of tiles (grout) to match the texture. Written in `python` with `tkinter`.
 
@@ -11,6 +7,7 @@ Desktop App that can generate randomized patterns and textures from input files 
 
 - Demo
 - Features/Options
+- Real World Application
 - Installation
 
 ## Demo
@@ -74,6 +71,9 @@ On the preview side you can see the image that has been generated. There is also
 
 ### Download:
 Once the download buttton is pressed a prompt will appear to save the generate image (diffuse). After saving it you will get a second prompt to save the grid outline (grout), if you chose to generate one.
+
+## Real World Application
+Visual designers tend to waste a lot of time by having to manually create a grid and play around with the different images in the grid in order to generate pseudo-random looking textures. Using this app, they can import the single images, input the measurements of the desired output and click generate. If the randomized texture doesn't look right, it can be re-randomized via the seed. So essentially the visual designer can keep randomizing until they get a satisfactory arrangement of the textures.
 
 ## Installation
 
