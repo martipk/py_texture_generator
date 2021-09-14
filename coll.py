@@ -62,6 +62,9 @@ grout_around=tk.IntVar()
 seed_num = tk.IntVar()
 seed_num.set(random.randint(0,10000))
 
+# file extension
+diff_ext = tk.StringVar()
+
 ###
 global files_dir
 files_dir="/"
@@ -111,7 +114,10 @@ def generate_image(bw, bh, gw, gh):
         status.set("Seed must be a number.")
         return
 
-    final = Image.new('RGB', (gw,gh))
+    mode = "RGB"
+    if diff_ext.get() == "png":
+        mode = "RGBA"
+    final = Image.new(mode, (gw,gh), (255, 255, 255, 0))
 
     starting_y = 0
     while starting_y < gh:
@@ -130,7 +136,7 @@ def generate_image(bw, bh, gw, gh):
     if direction.get(): 
         final = final.rotate(90, expand=True)
         tw, th = th, tw
-    final.save('preview.jpg')
+    final.save('preview.'+diff_ext.get())
     global preview_created
     preview_created=1
     resolution.set(f"{tw}x{th}")
@@ -148,7 +154,7 @@ def generate_grout(bw, bh, cols, rows, gl, gb):
         tw = bw*cols
         th = bh*rows
 
-    grout_img = Image.new('RGBA', (tw, th), (255, 255, 255))
+    grout_img = Image.new("RGBA", (tw, th), (255, 255, 255))
     draw = ImageDraw.Draw(grout_img)
 
     if grout_around.get():
@@ -183,7 +189,7 @@ def generate_grout(bw, bh, cols, rows, gl, gb):
     if direction.get(): 
         grout_img = grout_img.rotate(90, expand=True)
         tw, th = th, tw
-    grout_img.save('preview.png')  
+    grout_img.save('grout.png')  
     global grout_created
     grout_created=1
     resolution.set(f"{tw}x{th}") 
@@ -213,7 +219,7 @@ def update_preview():
         if not res: return
         if not grout.get() and show_grout_bool.get():
             show_grout_bool.set(0)
-        new_img = ImageTk.PhotoImage(Image.open("preview.jpg").resize(get_preview_dims(res[0], res[1])))
+        new_img = ImageTk.PhotoImage(Image.open("preview."+diff_ext.get()).resize(get_preview_dims(res[0], res[1])))
 
         if grout.get():
             try:
@@ -234,7 +240,7 @@ def update_preview():
                 return
             res = generate_grout(bw, bh, columns.get(), rows.get(), gl_width, gb_width)
             if grout.get() and show_grout_bool.get():
-                new_img = ImageTk.PhotoImage(Image.open("preview.png").resize(get_preview_dims(res[0],res[1])))
+                new_img = ImageTk.PhotoImage(Image.open("grout.png").resize(get_preview_dims(res[0],res[1])))
         
         prev_image.configure(image=new_img)
         prev_image.image(new_img)
@@ -298,18 +304,18 @@ def save_as():
     if preview_created:
         new_filename = asksaveasfilename(filetypes = [('JPG', '*.jpg')], defaultextension = '.jpg', title="Save Diffuse As")
         if new_filename:
-                shutil.copyfile("preview.jpg", new_filename+"_diff.jpg")
+                shutil.copyfile("preview."+diff_ext.get(), new_filename)
 
     global grout_created
     if grout_created:
         new_filename = asksaveasfilename(filetypes = [('PNG', '*.png')], defaultextension = '.png', title="Save Grout As")
         if new_filename:
-                shutil.copyfile("preview.png", new_filename+"_grout.png")
+                shutil.copyfile("grout.png", new_filename)
 
 def show_grout():
-    preview_file = "preview.jpg"
+    preview_file = "preview."+diff_ext.get()
     if grout.get() and show_grout_bool.get():
-        preview_file = "preview.png"
+        preview_file = "grout.png"
         tw, th = tw_gro, th_gro
     else:
         tw, th = tw_dif, th_dif
@@ -496,14 +502,22 @@ ttk.Button(seed_frame,text='Randomize',command= new_seed).grid(column=1, row=1, 
 
 ############ BUTTON ############
 # generate
-ttk.Button(options_frame,text='GENERATE', command = update_preview).grid(column=0, row=9, sticky="", ipadx=5, ipady=5)
-tk.Label(options_frame, textvariable=status, font=("arial", 16), bg="#ECECEC", fg="orange").grid(column=0, row=10, sticky="S", ipady=5, ipadx=5, pady=10)
+exts = ["jpg", "png"]
+om = tk.OptionMenu(options_frame, diff_ext, *exts)
+om.grid(column=0, row=9)
+om.config(bg="#ECECEC", font=("arial", 14), width=10)
+diff_ext.set("jpg")
+ttk.Button(options_frame,text='GENERATE', command = update_preview).grid(column=0, row=10, sticky="", ipadx=5, ipady=5)
+tk.Label(options_frame, textvariable=status, font=("arial", 16), bg="#ECECEC", fg="orange").grid(column=0, row=11, sticky="S", ipady=5, ipadx=5, pady=10)
 
 ### KEYPRESS
 root.bind("<KeyPress>", handle_keypress)
 
 root.mainloop()
 
-if preview_created: os_remove("preview.jpg")
-if grout_created: os_remove("preview.png")
+if preview_created: 
+    os_remove("preview.jpg")
+    os_remove("preview.png")
+if grout_created: 
+    os_remove("grout.png")
 
