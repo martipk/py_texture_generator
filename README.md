@@ -13,8 +13,14 @@ Desktop App that can generate randomized patterns and textures from input files 
 - Features/Options
 - Installation
 
-
 ## Demo
+
+We import three images `red.jpg`, `green.jpg`, and `blue.jpg` which have the normal centered numbers `1`, `2`, and `3` respectively. We want a 3 by 3 grid so we selected `Columns=3` and `Rows=3` and we included all the transformations with a 50% chance. After clicking generate we observer the following:
+![demo_preview](https://user-images.githubusercontent.com/48784268/133285942-a33655ed-6103-4dee-971f-aade6a0c41b5.png)
+Each slot in the grid has randomly selected one of the three images, and then metaphorically flipped a coin for each transformation on whether or not to apply it.
+
+As you saw we had also selected the `Create Grout` option, so when we click `Show Grout` (under the Download button), we can see the grout generated for the above image layout:
+![demo_grout](https://user-images.githubusercontent.com/48784268/133285966-6142cc7b-b1b7-4b2c-ae10-e312d72b5317.png)
 
 ## Features/Options
 
