@@ -331,7 +331,7 @@ def checkbox_update2(): ts[1] = flip_180.get()
 def checkbox_update3(): ts[2] = mirror_hor.get()
 def checkbox_update4(): ts[3] = mirror_ver.get()
 
-root.title("Texture Randomizer")
+root.title("Texture Generator")
 # generate window in center
 window_width =1050
 window_height = 970
