@@ -302,9 +302,13 @@ def new_seed(): seed_num.set(random.randint(0,10000))
 def save_as():
     global preview_created
     if preview_created:
-        new_filename = asksaveasfilename(filetypes = [('JPG', '*.jpg')], defaultextension = '.jpg', title="Save Diffuse As")
+        d_ext = diff_ext.get()
+        if  d_ext == "jpg":
+            new_filename = asksaveasfilename(filetypes = [('JPG', '*.jpg')], defaultextension = '.jpg', title="Save Diffuse As")
+        elif d_ext == "png":
+            new_filename = asksaveasfilename(filetypes = [('PNG', '*.png')], defaultextension = '.png', title="Save Diffuse As")
         if new_filename:
-                shutil.copyfile("preview."+diff_ext.get(), new_filename)
+                shutil.copyfile("preview."+d_ext, new_filename)
 
     global grout_created
     if grout_created:
@@ -481,11 +485,11 @@ grout_frame = ttk.Frame(options_frame)
 grout_frame.grid(column=0, row=7, sticky="W", ipady=10, padx=10)
 
 ttk.Label(grout_frame, text="Grout Options:", font=("arial", 16)).grid(column=0, row=0, sticky="NW", ipady=5)
-tk.Checkbutton(grout_frame, text='Create Grout', command=None, variable=grout, font=("arial", 16), bg="black", fg="white", onvalue=1, offvalue=0).grid(column=0, row=1, sticky="W")
+ttk.Checkbutton(grout_frame, text='Create Grout', variable=grout, onvalue=1, offvalue=0).grid(column=0, row=1, sticky="W")
 tk.Label(grout_frame, text="Grout Lines width (px):", font=("arial", 13), bg="#ECECEC",).grid(column=0, row=2, sticky="NW", padx=5,  pady=2)
-ttk.Entry(grout_frame, textvariable=grout_line_width, width=10).grid(column=0, row=2, padx=160)
+ttk.Entry(grout_frame, textvariable=grout_line_width, width=10).grid(column=0, row=2, padx=200)
 tk.Label(grout_frame, text="Grout Border width (px):", font=("arial", 13), bg="#ECECEC",).grid(column=0, row=3, sticky="NW", padx=5,  pady=2)
-ttk.Entry(grout_frame, textvariable=grout_border_width, width=10).grid(column=0, row=3, padx=160)
+ttk.Entry(grout_frame, textvariable=grout_border_width, width=10).grid(column=0, row=3, padx=200)
 ttk.Checkbutton(grout_frame, text='Space Around (instead of superposed)', variable=grout_around, onvalue=1, offvalue=0).grid(column=0, row=4, sticky="W")
 grout_line_width.set(2)
 grout_border_width.set(1)
@@ -516,8 +520,17 @@ root.bind("<KeyPress>", handle_keypress)
 root.mainloop()
 
 if preview_created: 
-    os_remove("preview.jpg")
-    os_remove("preview.png")
+    try:
+        os_remove("preview.jpg")
+    except OSError:
+        pass
+    try:
+        os_remove("preview.png")
+    except OSError:
+        pass
 if grout_created: 
-    os_remove("grout.png")
+    try:
+        os_remove("grout.png")
+    except OSError:
+        pass
 
