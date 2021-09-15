@@ -334,7 +334,7 @@ def checkbox_update4(): ts[3] = mirror_ver.get()
 root.title("Texture Generator")
 # generate window in center
 window_width =1050
-window_height = 970
+window_height = 1050
 screen_width = root.winfo_screenwidth()
 screen_height = root.winfo_screenheight()
 center_x = int(screen_width/2 - window_width / 2)
@@ -481,8 +481,7 @@ grout_frame = ttk.Frame(options_frame)
 grout_frame.grid(column=0, row=7, sticky="W", ipady=10, padx=10)
 
 ttk.Label(grout_frame, text="Grout Options:", font=("arial", 16)).grid(column=0, row=0, sticky="NW", ipady=5)
-cb = ttk.Checkbutton(grout_frame, text='Create Grout', variable=grout, onvalue=1, offvalue=0).grid(column=0, row=1, sticky="W")
-#cb.config(font=("arial", 16), bg="black", fg="white")
+tk.Checkbutton(grout_frame, text='Create Grout', command=None, variable=grout, font=("arial", 16), bg="black", fg="white", onvalue=1, offvalue=0).grid(column=0, row=1, sticky="W")
 tk.Label(grout_frame, text="Grout Lines width (px):", font=("arial", 13), bg="#ECECEC",).grid(column=0, row=2, sticky="NW", padx=5,  pady=2)
 ttk.Entry(grout_frame, textvariable=grout_line_width, width=10).grid(column=0, row=2, padx=160)
 tk.Label(grout_frame, text="Grout Border width (px):", font=("arial", 13), bg="#ECECEC",).grid(column=0, row=3, sticky="NW", padx=5,  pady=2)
